@@ -1,0 +1,31 @@
+version: "3.8"
+
+volumes:
+ grafana:
+ database:
+  
+services:
+ db:
+   build: ./components/db
+   container_name: mariadb
+   restart: always
+   volumes:
+   - database:/var/lib/mysql
+   environment:
+   - MYSQL_ROOT_PASSWORD=admin
+   - MYSQL_INITDB_SKIP_TZINFO=1
+   - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+   - MYSQL_DATABASE=relatorio_xavier
+   - MYSQL_USER=xavier
+   - MYSQL_PASSWORD=xavier
+   ports:
+   - 3306:3306
+  
+ grafana:
+   image: grafana/grafana:latest
+   restart: always
+   container_name: grafana
+   volumes:
+   - grafana:/var/lib/grafana
+   ports:
+   - 3000:3000
